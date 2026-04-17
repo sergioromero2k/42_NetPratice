@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NetPractice — Complete Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0f1117;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    line-height: 1.7;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .header {
+    text-align: center;
+    padding: 3rem 2rem 2.5rem;
+    background: linear-gradient(135deg, #1a1f2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 20px;
+    margin-bottom: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(99, 179, 237, 0.15);
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(99,179,237,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: -40px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(167,139,250,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .header-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #63b3ed;
+    margin-bottom: 0.75rem;
+  }
+
+  .header h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #e2e8f0 0%, #a0aec0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .header p {
+    font-size: 14px;
+    color: #718096;
+    font-weight: 300;
+  }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 1.25rem;
+  }
+
+  .label-purple { background: rgba(167,139,250,0.15); color: #a78bfa; border: 1px solid rgba(167,139,250,0.25); }
+  .label-teal   { background: rgba(45,212,191,0.12); color: #2dd4bf; border: 1px solid rgba(45,212,191,0.2); }
+  .label-amber  { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+  .label-red    { background: rgba(248,113,113,0.12); color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
+
+  .section { margin-bottom: 3rem; }
+
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .day-card {
+    background: #1a1f2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 1.25rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .day-card:hover {
+    border-color: rgba(99,179,237,0.25);
+    transform: translateY(-2px);
+  }
+
+  .day-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent, linear-gradient(90deg, #4299e1, #805ad5));
+    border-radius: 14px 14px 0 0;
+  }
+
+  .card-purple { --accent: linear-gradient(90deg, #7c3aed, #a78bfa); }
+  .card-teal   { --accent: linear-gradient(90deg, #0d9488, #2dd4bf); }
+  .card-blue   { --accent: linear-gradient(90deg, #1d4ed8, #63b3ed); }
+  .card-amber  { --accent: linear-gradient(90deg, #b45309, #fbbf24); }
+  .card-red    { --accent: linear-gradient(90deg, #b91c1c, #f87171); }
+
+  .day-num {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4a5568;
+    margin-bottom: 4px;
+  }
+
+  .day-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #cbd5e0;
+    margin-bottom: 10px;
+  }
+
+  .task-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .task-list li {
+    font-size: 12px;
+    color: #718096;
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .task-list li::before {
+    content: '-';
+    position: absolute;
+    left: 0;
+    color: #4a5568;
+  }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    margin: 2.5rem 0;
+  }
+
+  .info-box {
+    background: rgba(99,179,237,0.06);
+    border-left: 3px solid #4299e1;
+    border-radius: 0 10px 10px 0;
+    padding: 0.85rem 1.1rem;
+    margin-top: 1rem;
+  }
+
+  .warn-box {
+    background: rgba(248,113,113,0.06);
+    border-left: 3px solid #f87171;
+    border-radius: 0 10px 10px 0;
+    padding: 0.85rem 1.1rem;
+    margin-top: 1rem;
+  }
+
+  .info-box p, .warn-box p {
+    font-size: 13px;
+    color: #a0aec0;
+    line-height: 1.6;
+  }
+
+  .entrega-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .entrega-card {
+    background: #1a1f2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 1.2rem;
+  }
+
+  .entrega-card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #cbd5e0;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .entrega-card p {
+    font-size: 12px;
+    color: #718096;
+    line-height: 1.6;
+  }
+
+  .tag-ob {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(251,191,36,0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(251,191,36,0.25);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .tag-op {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(99,179,237,0.12);
+    color: #63b3ed;
+    border: 1px solid rgba(99,179,237,0.2);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+
+  .readme-block {
+    background: #1a1f2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .readme-block h3 {
+    font-size: 11px;
+    font-weight: 600;
+    color: #a0aec0;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+
+  .readme-row {
+    display: flex;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    align-items: flex-start;
+  }
+
+  .readme-row:last-child { border-bottom: none; }
+
+  .readme-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #cbd5e0;
+    min-width: 120px;
+    padding-top: 1px;
+  }
+
+  .readme-desc {
+    font-size: 12px;
+    color: #718096;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .readme-desc em {
+    color: #a0aec0;
+    font-style: italic;
+  }
+
+  code {
+    font-family: 'Fira Mono', 'Courier New', monospace;
+    font-size: 11px;
+    background: rgba(255,255,255,0.06);
+    color: #63b3ed;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+  }
+
+  .tip-card {
+    background: #1a1f2e;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+  }
+
+  .tip-card h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #a0aec0;
+    margin-bottom: 7px;
+  }
+
+  .tip-card p {
+    font-size: 12px;
+    color: #718096;
+    line-height: 1.6;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    color: #2d3748;
+    font-size: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.6rem; }
+    .days-grid, .entrega-grid, .tips-grid { grid-template-columns: 1fr; }
+    .readme-row { flex-direction: column; gap: 4px; }
+    .readme-label { min-width: unset; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-tag">42 Madrid &mdash; NetPractice v6.2</div>
+    <h1>Complete Project Guide</h1>
+    <p>Everything you need to know: theory, practice, submission and evaluation.</p>
+  </div>
+
+  <!-- ROUTE WITHOUT NETWORKING KNOWLEDGE -->
+  <div class="section">
+    <span class="section-label label-purple">No networking background &mdash; 5 days</span>
+    <div class="section-title">Learning from scratch</div>
+
+    <div class="days-grid">
+      <div class="day-card card-purple">
+        <div class="day-num">Day 1</div>
+        <div class="day-title">Networking fundamentals</div>
+        <ul class="task-list">
+          <li>What is a network: LAN, WAN, Internet</li>
+          <li>OSI model: the 7 layers explained</li>
+          <li>Layer 3 (network) vs layer 2 (link)</li>
+          <li>Difference between a router and a switch</li>
+          <li>TCP/IP protocol: what it is and why it matters</li>
+          <li>What an IP address is (IPv4)</li>
+        </ul>
+      </div>
+      <div class="day-card card-purple">
+        <div class="day-num">Day 2</div>
+        <div class="day-title">Subnetting and masks</div>
+        <ul class="task-list">
+          <li>IP structure: octets in binary</li>
+          <li>What a subnet mask is</li>
+          <li>CIDR notation (/24, /16, /8...)</li>
+          <li>Calculate network address, broadcast and host range</li>
+          <li>Subnetting exercises by hand</li>
+          <li>Reserved IPs (127.x, 0.0.0.0, etc.)</li>
+        </ul>
+      </div>
+      <div class="day-card card-blue">
+        <div class="day-num">Day 3</div>
+        <div class="day-title">Routing and gateways</div>
+        <ul class="task-list">
+          <li>What the default gateway is</li>
+          <li>How a routing table works</li>
+          <li>Static route vs dynamic route</li>
+          <li>How a packet travels across multiple networks</li>
+          <li>Network interface: IP + subnet mask</li>
+          <li>Default route 0.0.0.0/0</li>
+        </ul>
+      </div>
+      <div class="day-card card-teal">
+        <div class="day-num">Day 4</div>
+        <div class="day-title">Levels 1-5 in NetPractice</div>
+        <ul class="task-list">
+          <li>Launch the interface with run.sh</li>
+          <li>Enter your intranet login (required)</li>
+          <li>Levels 1-5: simple networks</li>
+          <li>Read the error logs at the bottom</li>
+          <li>Export each config with "Get my config"</li>
+          <li>Save the files in your repository</li>
+        </ul>
+      </div>
+      <div class="day-card card-teal">
+        <div class="day-num">Day 5</div>
+        <div class="day-title">Levels 6-10 + submission</div>
+        <ul class="task-list">
+          <li>Levels 6-10: multiple routers</li>
+          <li>Complex static routes</li>
+          <li>Export all 10 configurations</li>
+          <li>Write the README.md in English</li>
+          <li>Push everything to your Git repository</li>
+          <li>Review key concepts for the defense</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <p>Recommended resources: Cisco Networking Basics (Coursera), subnetting article on Wikipedia, "Subnet Mask Explained" videos on YouTube.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ROUTE WITH NETWORKING KNOWLEDGE -->
+  <div class="section">
+    <span class="section-label label-teal">Already know networking &mdash; 1-2 days</span>
+    <div class="section-title">Express route</div>
+
+    <div class="days-grid">
+      <div class="day-card card-teal">
+        <div class="day-num">Day 1</div>
+        <div class="day-title">Quick review + practice</div>
+        <ul class="task-list">
+          <li>Review subnet calculations by hand</li>
+          <li>Go over static routes and routing tables</li>
+          <li>Launch the interface, enter your intranet login</li>
+          <li>Complete levels 1-7</li>
+          <li>Export the config after each completed level</li>
+        </ul>
+      </div>
+      <div class="day-card card-teal">
+        <div class="day-num">Day 2</div>
+        <div class="day-title">Finish + submit</div>
+        <ul class="task-list">
+          <li>Complete levels 8-10</li>
+          <li>Verify you have 10 exported config files</li>
+          <li>Write the README.md in English</li>
+          <li>Push everything to your Git repository</li>
+          <li>Practice solving levels quickly for the defense</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <p>Key concepts to keep fresh: CIDR, routing tables, default gateway, 0.0.0.0/0 route, and host range within a subnet.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHAT TO SUBMIT -->
+  <div class="section">
+    <span class="section-label label-amber">Mandatory submission</span>
+    <div class="section-title">What to submit to your Git repository</div>
+
+    <div class="entrega-grid">
+      <div class="entrega-card">
+        <h3>10 configuration files <span class="tag-ob">required</span></h3>
+        <p>One file per level, exported with the "Get my config" button. They must be placed at the root of your repository. Make sure your login is entered before exporting each level.</p>
+      </div>
+      <div class="entrega-card">
+        <h3>README.md <span class="tag-ob">required</span></h3>
+        <p>Written in English. Must follow the exact structure required by the subject. First line in italics with your login. Without this the project will not be evaluated.</p>
+      </div>
+    </div>
+
+    <div class="readme-block">
+      <h3>README.md structure</h3>
+      <div class="readme-row">
+        <span class="readme-label">First line <span class="tag-ob">req</span></span>
+        <span class="readme-desc">In italics: <em>This project has been created as part of the 42 curriculum by &lt;your_login&gt;.</em></span>
+      </div>
+      <div class="readme-row">
+        <span class="readme-label">Description <span class="tag-ob">req</span></span>
+        <span class="readme-desc">What the project is about, its goal and a brief overview.</span>
+      </div>
+      <div class="readme-row">
+        <span class="readme-label">Instructions <span class="tag-ob">req</span></span>
+        <span class="readme-desc">How to launch the interface (<code>run.sh</code> or <code>python3 -m http.server 49242</code>), how to export configs, and that 10 files must be placed at the repository root.</span>
+      </div>
+      <div class="readme-row">
+        <span class="readme-label">Resources <span class="tag-ob">req</span></span>
+        <span class="readme-desc">References on TCP/IP, subnet masks, default gateways, routers/switches, OSI layers. Also a description of how you used AI and for which tasks.</span>
+      </div>
+      <div class="readme-row">
+        <span class="readme-label">Extra sections <span class="tag-op">optional</span></span>
+        <span class="readme-desc">Usage examples, technical decisions, list of concepts learned, etc. Not required but adds value.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- DEFENSE -->
+  <div class="section">
+    <span class="section-label label-red">Evaluation / defense</span>
+    <div class="section-title">How the defense works</div>
+
+    <div class="days-grid">
+      <div class="day-card card-red">
+        <div class="day-num">During the defense</div>
+        <div class="day-title">3 random levels</div>
+        <ul class="task-list">
+          <li>3 random levels are generated on the spot</li>
+          <li>Limited time to solve them</li>
+          <li>No external tools allowed</li>
+          <li>Only a basic calculator like bc is tolerated</li>
+          <li>You must be able to explain every decision</li>
+        </ul>
+      </div>
+      <div class="day-card card-amber">
+        <div class="day-num">To prepare</div>
+        <div class="day-title">Practice these points</div>
+        <ul class="task-list">
+          <li>Calculate subnets by hand quickly</li>
+          <li>Identify the host range of a network</li>
+          <li>Know when a static route is needed</li>
+          <li>Understand what each editable field does</li>
+          <li>Use the "Evaluation" tab to simulate the defense</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <p>Do not copy solutions without understanding them. During the defense you will be asked why you set each value. If you cannot explain it, you fail.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- INTERFACE TIPS -->
+  <div class="section">
+    <div class="section-title">Key interface tips</div>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <h3>Intranet login</h3>
+        <p>You must enter your login before exporting. Configs are generated specifically for you. Without the login the files are not valid for evaluation.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Level buttons</h3>
+        <p><code>Check again</code> verifies your config. <code>Get my config</code> downloads the file. <code>Next level</code> only appears after completing the level. Export BEFORE moving on.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Error logs</h3>
+        <p>At the bottom of the page you will see logs. They tell you exactly what is wrong: missing gateway, invalid IP, unreachable destination, etc.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Editable fields</h3>
+        <p>You can only modify the unshaded fields. Shaded fields are fixed. Adjust IPs, masks and routes in the available fields until everything is OK.</p>
+      </div>
+      <div class="tip-card">
+        <h3>If run.sh fails</h3>
+        <p>Run manually: <code>python3 -m http.server 49242</code> and navigate to <code>http://localhost:49242</code> in your browser.</p>
+      </div>
+      <div class="tip-card">
+        <h3>Evaluation tab</h3>
+        <p>Generates a random configuration. Use it to simulate the defense and practice under time pressure before the real day.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">NetPractice v6.2 &mdash; 42 Madrid</div>
+
+</div>
+</body>
+</html>
