@@ -1,0 +1,5 @@
+# .gitignore for NetPractice
+.DS_Store          # macOS junk files
+.vscode/           # Personal settings for your editor
+*.log              # Error logs if you use an external simulator
+node_modules/      # Only if you use third-party tools for practice
